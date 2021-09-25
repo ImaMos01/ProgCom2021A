@@ -10,10 +10,12 @@ int subarraysSum(vector<int>& nums,int k){
         
         if(sum[i]==k)cont++;
         int acu=0,temp=sum[i];
-        while(acu<i){
-            temp-=nums[acu];
-            if(temp==k) cont++;
-            acu++;
+        if(temp>k){
+            while(acu<i){
+                temp-=nums[acu];
+                if(temp==k) cont++;
+                acu++;
+            }
         }
     }
     return cont;
