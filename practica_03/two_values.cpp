@@ -5,7 +5,7 @@ void TwoValues(vector<pair<int,int>>& nums,int k){
     int i = 0, j = n - 1;
 	
 	while (i < j) {
-		// adjust left and right pointers.
+		// movemos los punteros de izquierda y derecha
 		if(nums[i].first + nums[j].first > k)
 			j--;
 		else if (nums[i].first + nums[j].first < k)
