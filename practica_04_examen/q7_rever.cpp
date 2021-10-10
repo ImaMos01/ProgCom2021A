@@ -13,6 +13,20 @@ void reverSum(vector<long long int>& nums,long long int m){
     for(long long int i=0; i<m; i++){
         cin>>opc>>x>>y;
         if(opc==1){
+            long long int p=x-1, q=y-1,c=0;
+            while(p<q){ 
+                int tem=nums[p];
+                nums[p]=nums[q];
+                nums[q]=tem;
+
+                sums[p]=nums[p]+sums[p-1];
+                
+                p++;
+                q--;
+            }
+            for(int j=p;j<n;j++){
+                sums[j]=nums[j]+sums[j-1];
+            }
         }
         else{
             long long int sum=0;
