@@ -1,26 +1,40 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-int minAvg(vector<int>& nums){
-    double pre = (nums[0]+nums[1])/2;
-    int in=0;
-    double min=pre;
-    int outt=in;
-    for(int i=2;i<nums.size();i++){
-        double curr=(pre*(i-in)+nums[i])/(i-in+1);
-        if(nums[i]+nums[i-1]>=curr*2){
-            pre=curr;
+int minAvg(vector<int>& A){
+    int n=A.size();
+    int ind = -1, minsum = INT_MAX;
+    int ind0 = -1, minsum0=INT_MAX;
+
+    for(int i=0;i<n-1;i++){
+        int val0=A[i],val1=A[i+1];
+        int sum=val0+val1;
+        if(sum<minsum){
+            minsum=sum;
+            ind=i;
         }
-        else{
-            pre=(nums[i]+nums[i-1])/2;
-            in=i-1;
-        }
-        if(pre<min){
-            min=pre;
-            outt=in;
+        if(i<n-2){
+            int val2 = A[i+2];
+            int sum1 = val0+val1+val2;
+            if(sum1<minsum0){
+                minsum0=sum1;
+                ind0 = i;
+            }
         }
     }
-    return outt;
+    if(ind0 == -1){
+        return ind;
+    }
+    double a = minsum/.2;
+    double b = minsum0/.3;
+
+    if(a<b){
+        return ind;
+    }
+    if(a>b){
+        return ind0;
+    }
+    return min(ind0,ind);
 }
 
 int main(){
