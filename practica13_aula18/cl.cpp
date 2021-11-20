@@ -36,7 +36,7 @@ int main(){
     char a;
     cin>>m>>n;
     int cont=0;
-    vector<vector<int>>cost(m+1,vector<int>(n+1,0));
+    vector<vector<int>>cost(m+2,vector<int>(n+2,0));
 
     for(int i=1;i<=m;i++){
         for(int j=1; j<=n;j++){
