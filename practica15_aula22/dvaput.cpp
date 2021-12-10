@@ -1,57 +1,61 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-int x=0;
-string sub="";
+const long long int limi=2e5+5;
+int n=0,t=0,ans=0;
+string arr;
+int sa[limi],lcp[limi];
+int tmp[limi],pos[limi];
 
-map<string,int> sor;
+bool compare(int i, int j){
+    if(pos[i]!=pos[j]) return (pos[i]<pos[j]);
+    i+=t;
+    j+=t;
+    if(i<n && j<n) return (pos[i]<pos[j]);
+    return (i>j);
+}
 
-int lps(){
-    int n=sub.length(),maxcom=0;
-    for(int i=0;i<n;i++){
-        sor[sub.substr(i)]=0;
+void suffixArray(){
+    for(int i=0; i<n;i++){
+        sa[i]=i;
+        pos[i]=arr[i];
     }
-
-    sub="";
-    int k=0,cont=0;
-    for(std::map<string,int>::iterator j=sor.begin(); j!=sor.end(); ++j){
-        if(k>=1){
-            cont=0;
-            for(long long int i=0;i<j->first.length();i++){
-                if(i>=sub.length()){
-                    j->second=cont;
-                    break;
-                }
-                if(sub[i]==j->first[i]){ 
-                    cont++;
-                }
-                else{
-                    j->second=cont;
-                    break;
-                }
-
-            }
-            maxcom=max(j->second,maxcom);
+    for(t=1;t<2*n+1;t*=2){
+        sort(sa,sa+n,compare);
+        for(int i=0; i<n-1;i++){
+            tmp[i+1]=tmp[i];
+            if(compare(sa[i],sa[i+1])) tmp[i+1]++;
         }
-        sub=j->first;
-        k++;
+        for(int i=0; i<n;i++){
+            pos[sa[i]]=tmp[i];
+        }
+        if(tmp[n-1]==n-1) break;
     }
-    
-    return maxcom;
+}
+
+void find_lcp(){
+    int p=0;
+    for(int i=0; i<n;i++){
+        if(pos[i]!=n-1){
+            int j=sa[pos[i]+1];
+            while(arr[i+p]==arr[j+p])p++;
+            lcp[pos[i]]=p;
+            if(p>ans) ans=p;
+            if(p>0) p--;
+        }
+    }
 }
 
 int main(){
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
-    cout.tie(NULL);
+
     cin>>x;
-    char d;
-    for(int i=0; i<x;i++){
-        cin>>d;
-        sub+=d;
-    }
+    cin>>arr;
+    n=arr.length();
+    suffixArray();
+    find_lcp();
 
-    cout<<lps()<<"\n";
-
+    cout<<ans<<"\n";
     return 0;
 }
